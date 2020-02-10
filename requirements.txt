@@ -71,4 +71,3 @@ virtualenv==16.7.7
 virtualenvwrapper-win==1.2.5
 xlrd==1.2.0
 xmljson==0.2.0
-zipp==2.1.0
