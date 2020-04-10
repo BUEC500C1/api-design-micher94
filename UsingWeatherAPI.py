@@ -3,14 +3,49 @@
 
 import json
 import requests
+import csv
+import time
+
+
+class Airport:
+	def __init__(self,ident,iata,coord):
+		self.ident = ident
+		self.__dict__[iata] = coord
+		return
+
+
 
 # Levereged information from this youtube video on how to use the Open weather API: https://www.youtube.com/watch?v=lcWfSn6-m_8
 
-def main(Coord,Timeframe):
+def weatherdata(iata):
+# def main():
+
+	filename = "airport-codes.csv"
+	Airports=dict()
+	# read the csv file
+	with open(filename,encoding='utf-8') as csvDataFile:
+		csvReader=csv.reader(csvDataFile)
+		for row in csvReader:
+			coord=row[11].split()
+			# print(coord)
+			if len(coord)>1:
+				# print(len(coord))
+				# time.sleep(2)
+				# print(coord[0][:-1])
+				# print(coord[1])
+				entry=coord[0][:-1]+','+coord[1]
+				# print(entry)
+				Airports[row[9]]=entry
+
+	# print(Airports[iata])
 
 
-	#Coord = input('What latitude and longitude do you want to look at(format Lat, long)')
-	#Timeframe = input('What time frame do you want to look at? if you want to look at next available forecast, please type "now"')
+
+
+	Coord = Airports[iata]
+	Timeframe = 'now'
+
+	# print(Coord)
 
 	# This commented line is how to do it using the Open Weather API. The Key is not included
 	# api_access = 'http://api.openweathermap.org/data/2.5/weather?appid=&q=Boston'
@@ -38,7 +73,7 @@ def main(Coord,Timeframe):
 			if periods['number']==1:
 				temp = periods['temperature']
 				units = periods['temperatureUnit']
-				print(periods['temperature'], periods['temperatureUnit'])
+				# print(periods['temperature'], periods['temperatureUnit'])
 	else:
 		for periods in new_json_data['properties']['periods']:
 			# print(periods['name'])
@@ -46,9 +81,10 @@ def main(Coord,Timeframe):
 				temp = periods['temperature']
 				units = periods['temperatureUnit']
 				print(periods['temperature'], periods['temperatureUnit'])
-	return print(temp,units)
-
+	# return print(temp,units)
+	return print('complete')
 
 
 if __name__ == '__main__':
-    main()
+	main()
+
